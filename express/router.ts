@@ -27,46 +27,46 @@ export class Router {
   }
 
   get(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('GET', path, req, res);
+    this.execCallback('GET', path, req, res);
   }
 
   head(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('HEAD', path, req, res);
+    this.execCallback('HEAD', path, req, res);
   }
 
   put(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('PUT', path, req, res);
+    this.execCallback('PUT', path, req, res);
   }
 
   post(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('POST', path, req, res);
+    this.execCallback('POST', path, req, res);
   }
 
   patch(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('PATCH', path, req, res);
+    this.execCallback('PATCH', path, req, res);
   }
 
   delete(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('DELETE', path, req, res);
+    this.execCallback('DELETE', path, req, res);
   }
 
   trace(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('TRACE', path, req, res);
+    this.execCallback('TRACE', path, req, res);
   }
 
   options(path: string, req: HttpRequest, res: HttpResponse): void {
-    this.exec('OPTIONS', path, req, res);
+    this.execCallback('OPTIONS', path, req, res);
   }
 
   /**
-   * Execute callback function
+   * execCallbackute callback function
    * @param {HttpMethods} metho
    * @param {string} path - URI
    * @param {HttpRequest} req
    * @param {HttpResponse} res
    * @returns
    */
-  private exec(
+  private execCallback(
     method: HttpMethods,
     path: string,
     req: HttpRequest,
