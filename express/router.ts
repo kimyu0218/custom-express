@@ -64,7 +64,6 @@ export class Router {
    * @param {string} path - URI
    * @param {HttpRequest} req
    * @param {HttpResponse} res
-   * @returns
    */
   private execCallback(
     method: HttpMethods,
@@ -73,7 +72,7 @@ export class Router {
     res: HttpResponse,
   ): void {
     const map: Map<string, Handler> = this.routes[method];
-    const callback: Handler | undefined = this.getCallback(path, map);
+    const callback: Handler = this.getCallback(path, map);
     if (!callback) {
       return res.throwError(404).send();
     }
@@ -84,12 +83,9 @@ export class Router {
    * Get callback function corresponding to path
    * @param {string} path
    * @param {Map<string, Handler>} map - map[path]: callback
-   * @returns {Handler | undefined}
+   * @returns {Handler}
    */
-  private getCallback(
-    path: string,
-    map: Map<string, Handler>,
-  ): Handler | undefined {
+  private getCallback(path: string, map: Map<string, Handler>): Handler {
     for (const key in map) {
       const parsed: string = key.replace(/:[^\/]+/g, '([^/]+)'); // parse param
       const reg: RegExp = new RegExp(`^${parsed}$`);
@@ -97,7 +93,7 @@ export class Router {
         return map.get(key);
       }
     }
-    return undefined; // there is no callback function
+    return null; // there is no callback function
   }
 }
 
