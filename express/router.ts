@@ -59,8 +59,8 @@ export class Router {
   }
 
   /**
-   * execCallbackute callback function
-   * @param {HttpMethods} metho
+   * Execute callback function
+   * @param {HttpMethods} method
    * @param {string} path - URI
    * @param {HttpRequest} req
    * @param {HttpResponse} res
