@@ -1,4 +1,9 @@
-import { HttpMethods, HttpRequest, HttpResponse } from '@kimyu0218/custom-http';
+import {
+  HttpMethods,
+  HttpRequest,
+  HttpResponse,
+  parseParam,
+} from '@kimyu0218/custom-http';
 
 export type Handler = (req: HttpRequest, res: HttpResponse) => any;
 type Routes = Record<HttpMethods, Map<string, Handler>>;
@@ -65,14 +70,14 @@ export class Router {
    * @param {HttpRequest} req
    * @param {HttpResponse} res
    */
-  private execCallback(
+  execCallback(
     method: HttpMethods,
     path: string,
     req: HttpRequest,
     res: HttpResponse,
   ): void {
     const map: Map<string, Handler> = this.routes[method];
-    const callback: Handler = this.getCallback(path, map);
+    const callback: Handler = this.getCallback(path, req, map);
     if (!callback) {
       return res.throwError(404).send();
     }
@@ -82,14 +87,25 @@ export class Router {
   /**
    * Get callback function corresponding to path
    * @param {string} path
+   * @param {HttpRequest} req
    * @param {Map<string, Handler>} map - map[path]: callback
    * @returns {Handler}
    */
-  private getCallback(path: string, map: Map<string, Handler>): Handler {
-    for (const key in map) {
+  private getCallback(
+    path: string,
+    req: HttpRequest,
+    map: Map<string, Handler>,
+  ): Handler {
+    for (const key of map.keys()) {
       const parsed: string = key.replace(/:[^\/]+/g, '([^/]+)'); // parse param
       const reg: RegExp = new RegExp(`^${parsed}$`);
       if (reg.test(path)) {
+        // set param
+        const params: Map<string, string> = parseParam(path, key);
+        params.forEach((value: string, key: string) => {
+          req.setParam(key, value);
+        });
+        // return callback
         return map.get(key);
       }
     }
