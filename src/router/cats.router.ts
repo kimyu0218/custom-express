@@ -1,5 +1,4 @@
 import { HttpRequest, HttpResponse, METHODS } from '@kimyu0218/custom-http';
-import parseParam from '@kimyu0218/custom-http/dist/http/utils/parsers/param.parser';
 import catsController from 'src/controller/cats.controller';
 import { Router, router } from '../../index';
 
